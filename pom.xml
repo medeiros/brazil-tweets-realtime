@@ -10,6 +10,10 @@
     <version>1.0-SNAPSHOT</version>
     <name>Brazil Tweets Realtime</name>
 
+    <modules>
+        <module>kafka-producer</module>
+    </modules>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
