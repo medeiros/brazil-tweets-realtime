@@ -11,4 +11,11 @@ public class TwitterClient {
   @NonNull private TwitterAuthentication authentication;
   @NonNull private String name;
 
+  public void connect() {
+  }
+
+  public void stop() {
+  }
+
+
 }
