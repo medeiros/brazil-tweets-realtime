@@ -1,8 +1,12 @@
 package com.arneam.braziltweetsrealtime.kafkaproducer.domain;
 
+import com.google.common.collect.Lists;
 import com.twitter.hbc.ClientBuilder;
 import com.twitter.hbc.core.Constants;
+import com.twitter.hbc.core.StatsReporter;
+import com.twitter.hbc.core.endpoint.StatusesFilterEndpoint;
 import com.twitter.hbc.core.endpoint.StatusesSampleEndpoint;
+import com.twitter.hbc.core.event.Event;
 import com.twitter.hbc.core.processor.StringDelimitedProcessor;
 import com.twitter.hbc.httpclient.BasicClient;
 import com.twitter.hbc.httpclient.auth.Authentication;
@@ -23,12 +27,20 @@ public class TwitterClient {
   @NonNull
   private String name;
 
-  private final BasicClient client;
+  private static BasicClient client;
   private final BlockingQueue<String> queue = new LinkedBlockingQueue<>(10000);
 
   public void connect() {
-    BasicClient client = createClient();
+    client = createClient();
     client.connect();
+  }
+
+  public boolean isDone() {
+    return client.isDone();
+  }
+
+  public Event getExitEvent() {
+    return client.getExitEvent();
   }
 
   private BasicClient createClient() {
@@ -41,13 +53,23 @@ public class TwitterClient {
         authentication.token(), authentication.secret());
   }
 
-  private StatusesSampleEndpoint endpoint() {
-    StatusesSampleEndpoint endpoint = new StatusesSampleEndpoint();
-    endpoint.stallWarnings(false);
+  private StatusesFilterEndpoint endpoint() {
+    //StatusesSampleEndpoint endpoint = new StatusesSampleEndpoint();
+    //endpoint.stallWarnings(false);
+    //return endpoint;
+
+    StatusesFilterEndpoint endpoint = new StatusesFilterEndpoint();
+    // add some track terms
+    endpoint.trackTerms(Lists.newArrayList("twitterapi", "#yolo"));
     return endpoint;
   }
 
+  public StatsReporter.StatsTracker getStatsTracker() {
+    return client.getStatsTracker();
+  }
+
   public void stop() {
+    client.stop();
   }
 
   Collection<String> messages() {
