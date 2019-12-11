@@ -10,3 +10,7 @@ data.
 - Storm
 - Cassandra
 
+### Utils
+
+- **twulr**: command-line interface to test twitter api: https://github.com/twitter/twurl/blob/master/README.md
+
