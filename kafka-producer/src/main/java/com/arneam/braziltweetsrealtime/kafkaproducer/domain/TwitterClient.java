@@ -54,10 +54,6 @@ public class TwitterClient {
   }
 
   private StatusesFilterEndpoint endpoint() {
-    //StatusesSampleEndpoint endpoint = new StatusesSampleEndpoint();
-    //endpoint.stallWarnings(false);
-    //return endpoint;
-
     StatusesFilterEndpoint endpoint = new StatusesFilterEndpoint();
     // add some track terms
     endpoint.trackTerms(Lists.newArrayList("twitterapi", "#yolo"));

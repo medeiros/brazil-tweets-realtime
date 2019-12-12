@@ -23,7 +23,7 @@ class TwitterClientIT {
   @Test
   void shouldConnectToTwitter() {
     TwitterClient client =
-        TwitterClient.builder().authentication(auth).name("twitterClient").build();
+        TwitterClient.builder().authentication(auth).name("brazil-tweets-realtime").build();
     client.connect();
     for (int i = 0; i < 1000; i++) {
       if (client.isDone()) {
